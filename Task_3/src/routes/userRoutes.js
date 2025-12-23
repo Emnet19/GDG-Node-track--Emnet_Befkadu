@@ -1,10 +1,12 @@
 import  express from "express";
-import router from express.Router();
+import {getBooks,getBookById,CreateBooks} from "../controllers/userController.js";
 
-import userController from "../controllers/userController";
 
-router.get("/:books",userController.getUser);
-router.get("/:books/id",userController.createUser);
-router.post("/books");
+const router = express.Router();
+
+
+router.get("/:books",getBooks);
+router.get("/:books/:id",getBookById);
+router.post("/books",CreateBooks);
 
 export default router;

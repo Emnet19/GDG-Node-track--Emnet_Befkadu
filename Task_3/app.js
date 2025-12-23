@@ -1,6 +1,6 @@
-import express from 'express';
-import userRoutes from './src/routes/userRoutes';
-import errorHandler from './src/middleware/errorHandler';
+import express from "express";
+import userRoutes from './src/routes/userRoutes.js';
+import errorHandler from './src/middleware/errorHandler.js';
 const app=express();
 
 // Middleware

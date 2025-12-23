@@ -1,9 +1,10 @@
 import Joi from 'joi';
 
 const userSchema = Joi.object({
-    name:Joi.string().min(3).required(),
-    email:Joi.string().email().required(),
-    age:Joi.number().integer().min(18),
+    title:Joi.string().min(3).required(),
+    author:Joi.string().min(3).required(),
+    price:Joi.number().positive().required(),
+    description:Joi.string().optional()
 });
 
 export default userSchema;
