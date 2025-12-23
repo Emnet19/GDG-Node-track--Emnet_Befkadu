@@ -1,7 +1,21 @@
+
+
+
 {
+  "name": "task_3",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "type":"module",
+  "scripts": {
+    "dev":"nodemon app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
   "dependencies": {
     "express": "^5.2.1",
-    "joi": "^18.0.2",
     "nodemon": "^3.1.11"
   }
 }
