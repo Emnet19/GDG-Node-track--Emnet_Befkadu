@@ -2,29 +2,29 @@ import mongoose from 'mongoose';
 
 const productSchema=new mongoose.Schema({
     name:{
-        type:string,
+        type:String,
         required:true,    
     },
     description:{
-        type:string,
+        type:String,
         required:true,
 
     },
     price:{
-        type:number,
+        type: Number,
         required:true,
 
     },
     stock:{
-        type:number,
+        type: Number,
         required:true,
     },
     category:{
-        type:string,
+        type:String,
         required:true,
     },
     imageUrl:{
-        type:string,
+        type:String,
     }
 });
 
@@ -36,15 +36,15 @@ const cartSchema=new mongoose.Schema({
 
 const orderSchema=new mongoose.Schema({
     items:{
-        type:string,
+        type: String,
         required:true,
     },
     total:{
-        type:number,
+        type: Number,
         required:true,
     },
     date:{
-        type:Date,
+        type: Date,
         default:Date.now,
     },
     customerInfo:{
