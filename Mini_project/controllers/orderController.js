@@ -1,4 +1,4 @@
-import { order_list,cart_list,product_list } from "../models/ecommerceModel"
+import { order_list,cart_list,product_list } from "../models/ecommerceModel.js"
 export const getOrder=async(req,res)=>{
   try{
     const showOrder=await order_list.find().populate("items.product");
@@ -26,7 +26,7 @@ export const getOrder=async(req,res)=>{
 export const getOrderById=async(req,res)=>{
   try{
     const {orderId}=req.params
-    const showOrderById=await order_list.findById(orderId).populate("Items.product");
+    const showOrderById=await order_list.findById(orderId).populate("items.product");
     if(!showOrderById){
       return res.status(404).json({
         message: "Order not found"
@@ -65,10 +65,35 @@ export const addOrder=async(req,res)=>{
           message:`Not enough stock for ${item.product.name}`
          })
       }
+      total+=item.product.price * item.quantity;
     } 
+      //  create order
+      const newOrder=await order_list.create({
+        items:cart.items.map(item=>({
+          product:item.product._id,
+          quantity:item.quantity
+        })),
+        total,
+        customerInfo:{name,email,address}
+      });
+      for(let item of cart.items){
+        await product_list.findByIdAndUpdate(
+          item.product._id,
+          {$inc:{stock: -item.quantity}}
+        );
+      }
+      cart.items=[];
+      await cart.save();
 
+      res.status(201).json({
+        message:"Order Created successfully",
+        newOrder
+      });
   }catch(err){
-
+         res.status(500).json({
+          message:"Something went wrong",
+          err
+         })
   }
 }
 

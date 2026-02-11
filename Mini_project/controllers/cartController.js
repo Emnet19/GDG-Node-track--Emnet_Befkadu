@@ -1,11 +1,11 @@
-import { cart_list } from "../models/ecommerceModel";
+import { cart_list } from "../models/ecommerceModel.js";
 
 // view current cart
 
 export const getCart=async(req,res)=>{
     try{
  const showCart=await cart_list.findOne().populate("items.product");
-       if(showCart||showCart.items.length===0){
+       if(!showCart||showCart.items.length===0){
         return res.status(404).json({
             message:"Cart is empty"
         });
@@ -17,7 +17,7 @@ export const getCart=async(req,res)=>{
 }catch(err){
     res.status(500).json({
         messsage:"error happend: ",
-        err
+        err:err.message
     })
 }
 };
@@ -58,14 +58,16 @@ try{
     }catch(err){
         res.status(500).json({
             message:"Something went wrong: ",
-            err
+            err:err.message
+
         
         })
     }
 }
 
-// update cart
 
+
+// update cart
 export const updateCart=async(req,res)=>{
     try{
         const {cartId}=req.params;
@@ -94,7 +96,8 @@ export const updateCart=async(req,res)=>{
     }catch(err){
         res.status(500).json({
             message:"Something went wrong: ",
-            err
+             err:err.message
+
         })
     }
         
@@ -124,7 +127,8 @@ export const deleteCart=async(req,res)=>{
     }catch(err){
         res.status(500).json({
             message:"something went wrong: ",
-            err
+            err:err.message
+
         })
     }  
 }
