@@ -30,15 +30,39 @@ const productSchema=new mongoose.Schema({
 
 const cartSchema=new mongoose.Schema({
     userId:{
-
+        type: String
+    },
+   items:[
+    {
+        product:{
+            type:mongoose.Schema.Types.ObjectId,
+            ref:'product',
+            required:true
+        },
+        quantity:{
+            type:Number,
+            required:true,
+            min:1
+        }
     }
+   ]
 });
 
 const orderSchema=new mongoose.Schema({
-    items:{
-        type: String,
-        required:true,
-    },
+    items:[
+        {
+            product:{
+                type:mongoose.Schema.Types.ObjectId,
+                ref:'product',
+                required:true
+            },
+            quantity:{
+                type:Number,
+                required:true 
+            }
+        }
+    ],
+      
     total:{
         type: Number,
         required:true,
@@ -48,7 +72,18 @@ const orderSchema=new mongoose.Schema({
         default:Date.now,
     },
     customerInfo:{
-
+        name:{
+            type:String,
+            required:true  
+        },
+        email:{
+            type:String,
+            required:true
+        },
+        address:{
+            type:String,
+            required:true
+        }
     }
 })
 
