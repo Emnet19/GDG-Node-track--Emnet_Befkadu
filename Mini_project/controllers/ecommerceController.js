@@ -17,9 +17,11 @@ export const getProducts=async (req,res)=>{
 
 // get product by id
 export const getProductsById= async(req,res)=>{
-    const {id}=req.params;
-    const showProductById=await product_list.findById(id);
-    if(!showProductById){
+    try{
+        const {id}=req.params;
+        const showProductById=await product_list.findById(id);
+    
+        if(!showProductById){
        return res.status(404).json({
             message:"No product with this id"
         })
@@ -28,12 +30,27 @@ export const getProductsById= async(req,res)=>{
         message:"product found: ",
         showProductById,
     })
+    }catch(err){
+         res.status(500).json({
+            message:"Something went wrong",
+            err:err.message
+        })
+    }
+   
 }
 
 // add new product
 export const addProduct=async (req,res)=>{
-    const {name,description,price,stock,category,imageUrl}=req.body;
-    const newProduct=new product_list({
+  try{
+      const {name,description,price,stock,category,imageUrl}=req.body;
+
+       if(price <0 || stock<0){
+        return res.status(400).json({
+            message:"Price must be positive and stock non-negative"
+        });
+       }
+
+      const newProduct=new product_list({
         name,
         description,
         price,
@@ -50,38 +67,43 @@ export const addProduct=async (req,res)=>{
     res.status(201).json({
         saveProducts,
     })
+  }catch(err){
+    res.status(500).json({
+        messsage:"Something went wrong",
+        err:err.message
+    })
+  }
 }
 
 // update product
 
 export const updateProduct= async(req,res)=>{
-    const{id}=req.params;
-    const {name,description,price,stock,category,imageUrl}=req.body;
+    try{
+        const{id}=req.params;
     const updatedProduct= await product_list.findByIdAndUpdate(
-        id,
-        {
-            name,
-            description,
-            price,
-            stock,
-            category,
-            imageUrl
-        },
+        id,req.body,
         {new:true,runValidators:true}
     );
       if(!updatedProduct){
       return  res.status(404).json({
-            message:"Failed to update product"
+            message:"product not found"
         })
       }
       res.status(201).json({
         messahe :"Product Updated:",
         updatedProduct
       })
+    }catch(err){
+        res.status(500).json({
+            message:"Something went wrong",
+            err:err.message
+        })
+    }
 }
 
 export const deleteProduct=async (req,res)=>{
-    const {id}=req.params;
+    try{
+      const {id}=req.params;
     const deletedProduct= await product_list.findByIdAndDelete(id);
     if(!deletedProduct){
        return res.status(404).json({
@@ -92,4 +114,10 @@ export const deleteProduct=async (req,res)=>{
         message:"Deleted Successfully",
         deletedProduct
     })
+    }catch(err){
+        res.status(500).json({
+            message:"Something went wrong",
+            err:err.message
+        })
+    }
 }

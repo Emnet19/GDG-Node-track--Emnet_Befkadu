@@ -1,5 +1,7 @@
 import express from 'express';
-import {cartRouter, orderRouter, productRouter} from './routers/ecommerceRouter.js'
+import {productRouter} from './routers/ecommerceRouter.js'
+import {cartRouter } from './routers/cartRouter.js';
+import { orderRouter } from './routers/orderRouter.js';
 import connectDB from './config/dbConfig.js';
 connectDB(); 
 const app=express();
