@@ -2,7 +2,8 @@
 import {product_list} from '../models/ecommerceModel.js';
 // get product list
 export const getProducts=async (req,res)=>{
-    const showProducts=await product_list.find();
+    try{
+   const showProducts=await product_list.find();
     if(showProducts.length===0){
       return  res.status(404).json({
             message:"No product Found"
@@ -12,6 +13,13 @@ export const getProducts=async (req,res)=>{
         message:"Product List:",
         showProducts,
     })
+    }catch(err){
+        res.status(500).json({
+            message:"Something went wrong",
+            err:err.message
+        })
+    }
+ 
 }
 
 
